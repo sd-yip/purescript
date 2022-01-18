@@ -34,3 +34,9 @@ TAGS
 *.ps
 *.svg
 tests/purs/make/
+
+# IntelliJ
+/.idea
+/*.iml
+/lib/purescript-cst/*.iml
+/stack.yaml.lock
