@@ -1,0 +1,39 @@
+
+on:
+  push:
+    branches: ['**']
+  release:
+    types: [published]
+
+env:
+  CI_RELEASE: ${{ github.event_name == 'release' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: haskell:8.10.4-stretch@sha256:d1a6190ae50aa65f56c8083cc5bfad260d01c811c421201effdca18538082aed
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: chown -R root . && git -C .. init
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
+
+      - uses: actions/cache@v2
+        with:
+          key: Linux-glibc2_23-${{ hashFiles('stack.yaml') }}
+          path: /root/.stack
+      - run: HOME=/root ci/build.sh
+
+      - if: ${{ env.CI_RELEASE == 'true' }}
+        run: |
+          cd sdist-test
+          HOME=/root bundle/build.sh linux64
+
+      - if: ${{ env.CI_RELEASE == 'true' }}
+        uses: AButler/upload-release-assets@ec6d3263266dc57eb6645b5f75e827987f7c217d
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          files: sdist-test/bundle/*.{tar.gz,sha}
