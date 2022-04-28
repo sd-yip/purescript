@@ -15,6 +15,13 @@ trap 'rm -rf "$tmpdir"' EXIT
 export PATH="$tmpdir/node_modules/.bin:$PATH"
 cd "$tmpdir"
 
+if [[ "${CI:-}" ]]; then
+  # Since this only runs on the Ubuntu build,
+  # fix the ownership of the temporary directory
+  # so `npm install` actually works
+  chown root:root .
+fi
+
 echo ::group::Ensure Spago is available
 which spago || npm install spago@0.20.8
 echo ::endgroup::
