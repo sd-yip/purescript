@@ -38,6 +38,8 @@ jobs:
 
       - run: |
           npm -v
+          npm i -g npm@8.8.0
+          npm -v
           tmpdir=$(mktemp -d)
           cd "$tmpdir"
           export PATH="$tmpdir/node_modules/.bin:$PATH"
