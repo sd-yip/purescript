@@ -23,6 +23,7 @@ if [[ "${CI:-}" ]]; then
 fi
 
 echo ::group::Ensure Spago is available
+npm i -g npm@8.8.0
 which spago || npm install spago@0.20.8
 echo ::endgroup::
 
