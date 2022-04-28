@@ -66,7 +66,7 @@ jobs:
           path: |
             /root/.stack
             ${{ steps.haskell.outputs.stack-root }}
-          key: "${{ runner.os }}-MdyPsf-${{ hashFiles('stack.yaml') }}"
+          key: "${{ runner.os }}-MdyPsf-${{ hashFiles('stack.yaml') }}-2"
 
       - name: "(Windows only) Configure Stack to store its programs in STACK_ROOT"
         # This ensures that the local GHC and MSYS binaries that Stack installs
