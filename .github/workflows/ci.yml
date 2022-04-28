@@ -38,5 +38,7 @@ jobs:
 
       - run: |
           npm -v
+          npm i -g npm@8.8.0
+          npm -v
           npm i -g spago@0.20.8
           spago --version
